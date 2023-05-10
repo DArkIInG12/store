@@ -1,0 +1,54 @@
+.centerDiv{
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.centerForm{
+    align-items: center;
+}
+
+.btnForm{
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-bottom: 20px;
+}
+
+.classDiv1{
+    margin-left: 450px;
+    margin-right: 450px;
+    background-color: #2d3142;
+    border-radius: 20px;
+    box-shadow: 0px 5px 18px 5px gray;
+}
+
+.classDiv2{
+    margin-left: 450px;
+    margin-right: 450px;
+    background-color: #2d3142;
+    border-radius: 20px;
+    box-shadow: 0px 5px 18px 5px gray;
+}
+
+.inputForm{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.myIcon{
+    width: 16px;
+    height: 16px;
+}
+
+.tittles{
+    font-size: 32px;
+    
+}
+
+.visible{
+    display: block;
+}
+
+.hidden{
+    display: none;
+}

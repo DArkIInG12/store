@@ -1,0 +1,60 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+{% block content %}
+<section id="productsList">
+    <div class="text-center pb-2 py-3">
+        <h4 class="section-title px-5"><span class="px-4">Payments</span></h4>
+    </div>
+
+    <div class="text-center pb-2">
+        <a id="btnAddPayment" type="submit" class="btn btn-primary" href="#alter-payments">Add Payment</a>
+        <a id="btnModifyPayment" type="submit" class="btn btn-primary" href="#alter-payments">Modify Payment</a>
+        <a id="btnDeletePayment" type="submit" class="btn btn-primary">Delete Payment</a>
+    </div>
+    
+    <div class="container-fluid pt-2" style="width: 100%; margin-bottom: 20px;">
+        
+        <table id="dtPayments" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Method</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in payments %}
+                    <tr>
+                        <td>{{object.atrId}}</td>
+                        <td>{{object.method}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section id="alter-payments" class="hidden"> 
+    <div class="centerDiv" style="background-color: #b0d7ff">
+        <div class="classDiv2">
+            <h3 class="text-primary mb-4 tittles" style="padding-top: 20px;" id="formTittle"></h3>
+                <form action="{% url 'registerPayment' %}" method="POST" id="addPaymentForm">
+                    {% csrf_token %}
+                    <div class="form-group inputForm mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Method</span>
+                            <input type="text" name="method" id="method" class="form-control">
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="btn btn-primary border-0 py-3 btnForm" type="submit" id="btnSendPayment">Submit</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'js/paymentScripts.js' %}?1.1"></script>
+{% endblock scripts %}

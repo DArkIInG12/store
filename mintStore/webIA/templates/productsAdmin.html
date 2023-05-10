@@ -1,0 +1,129 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+{% block content %}
+<section id="productsList">
+    <div class="text-center pb-2 py-3">
+        <h4 class="section-title px-5"><span class="px-4">Products</span></h4>
+    </div>
+
+    <div class="text-center pb-2">
+        <a id="btnAddProduct" type="submit" class="btn btn-primary" href="#alter-products">Add Product</a>
+        <a id="btnModifyProduct" type="submit" class="btn btn-primary" href="#alter-products">Modify Product</a>
+        <a id="btnDeleteProduct" type="submit" class="btn btn-primary">Delete Product</a>
+    </div>
+    
+    <div class="container-fluid pt-2" style="width: 100%; margin-bottom: 20px;">
+        
+        <table id="dtProducts" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Brand</th>
+                    <th>Price</th>
+                    <th>Color</th>
+                    <th>Size</th>
+                    <th>In Stock</th>
+                    <th>Category</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in products %}
+                    <tr>
+                        <td>{{object.atrId}}</td>
+                        <td>{{object.name}}</td>
+                        <td>{{object.brand}}</td>
+                        <td>{{object.price}}</td>
+                        <td>{{object.color}}</td>
+                        <td>{{object.size}}</td>
+                        <td>{{object.inStock}}</td>
+                        <td>{{object.category.category}}</td>
+                        <td>{{object.image}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section id="alter-products" class="hidden"> 
+<div class="centerDiv" style="background-color: #b0d7ff">
+    <div class="classDiv2">
+        <h3 class="text-primary mb-4 tittles" style="padding-top: 20px;" id="formTittle"></h3>
+            <form action="{% url 'registerProduct' %}" method="POST" id="addProductForm" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group inputForm mb-4">
+                    <div class="input-group">
+                        <span class="input-group-text">Name</span>
+                        <input type="text" name="name" id="name" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group inputForm mb-4">
+                    <div class="input-group">
+                        <span class="input-group-text">Brand</span>
+                        <input type="text" name="brand" id="brand" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group inputForm mb-4">
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex">
+                        <span class="input-group-text">Price</span>
+                        <input type="text" name="price" id="price" class="form-control">
+                        </div>
+                        
+                        <div class="d-flex" style="margin-left: 20px;">
+                        <span class="input-group-text">Color</span>
+                        <input type="text" name="color" id="color" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group inputForm mb-4">
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex">
+                        <span class="input-group-text">Size</span>
+                        <input type="text" name="size" id="size" class="form-control">
+                        </div>
+                        
+                        <div class="d-flex" style="margin-left: 20px;">
+                        <span class="input-group-text">Stock</span>
+                        <input type="text" name="inStock" id="inStock" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group inputForm mb-4">
+                    <div class="input-group">
+                        <span class="input-group-text">Category</span>
+                        <select id="category" name="category" class="form-control">
+                            {% for object in categories %}
+                            <option value="{{object.atrId}}" id="{{object.category}}">{{object.category}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group inputForm mb-4">
+                    <div class="input-group">
+                        <span class="input-group-text">Image</span>
+                        <input type="file" name="image" id="image" class="form-control">
+                    </div>
+                    <p class="text-success" id="imageFeedback"></p>
+                </div>
+                <div>
+                    <button class="btn btn-primary border-0 py-3 btnForm" type="submit" id="btnSendProduct">Submit</button>
+                </div>
+            </form>
+    </div>
+</div>
+
+</section>
+    
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'js/productScripts.js' %}?1.1"></script>
+{% endblock scripts %}

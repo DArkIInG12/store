@@ -1,0 +1,89 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+{% block content %}
+    
+<section id="suppliersList">
+    <div class="text-center pb-2 py-3">
+        <h4 class="section-title px-5"><span class="px-4">Suppliers</span></h4>
+    </div>
+
+    <div class="text-center pb-2">
+        <a id="btnAddSupplier" type="submit" class="btn btn-primary" href="#alter-suppliers">Add Supplier</a>
+        <a id="btnModifySupplier" type="submit" class="btn btn-primary" href="#alter-suppliers">Modify Supplier</a>
+        <a id="btnDeleteSupplier" type="submit" class="btn btn-primary">Delete Supplier</a>
+    </div>
+    
+    <div class="container-fluid pt-2" style="width: 100%; margin-bottom: 20px;">
+        
+        <table id="dtSuppliers" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in suppliers %}
+                    <tr>
+                        <td>{{object.atrId}}</td>
+                        <td>{{object.name}}</td>
+                        <td>{{object.phone}}</td>
+                        <td>{{object.email}}</td>
+                        <td>{{object.address}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section id="alter-suppliers" class="hidden"> 
+    <div class="centerDiv" style="background-color: #b0d7ff">
+        <div class="classDiv2">
+            <h3 class="text-primary mb-4 tittles" style="padding-top: 20px;" id="formTittle"></h3>
+                <form action="{% url 'registerSupplier' %}" method="POST" id="addSupplierForm">
+                    {% csrf_token %}
+                    <div class="form-group inputForm mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Name</span>
+                            <input type="text" name="name" id="name" class="form-control">
+                        </div>
+                    </div>
+    
+                    <div class="form-group inputForm mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Phone</span>
+                            <input type="text" name="phone" id="phone" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group inputForm mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Email</span>
+                            <input type="text" name="email" id="email" class="form-control">
+                        </div>
+                    </div>
+    
+                    <div class="form-group inputForm mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Address</span>
+                            <input type="text" name="address" id="address" class="form-control">
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="btn btn-primary border-0 py-3 btnForm" type="submit" id="btnSendSupplier">Submit</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'js/supplierScripts.js' %}?1.1"></script>
+{% endblock scripts %}

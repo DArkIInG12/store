@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container-fluid py-5">
+    <div class="container p-0">
+        <div class="text-center pb-2">
+            <h1 class="mb-4">Categories</h1>
+        </div>
+        <div class="owl-carousel testimonial-carousel">
+        {% for object in categories %}
+        
+            <div class="testimonial-item px-3">
+                <div class="d-flex align-items-center">
+                    <img src="{% static 'media/' %}{{object.image}}" style="width: 60px; height: 60px;" alt="Image">
+                    <div class="pl-3">
+                        <h5>{{object.category}}</h5>
+                        <i>{{object.description}}</i>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="text-center pb-2 py-3">
+    <h4 class="section-title px-5"><span class="px-4">Our Products</span></h4>
+</div>
+
+{% for object in categories %}
+<div class="container-fluid py-5">
+    <div class="container p-0">
+        <div class="text-center pb-2">
+            <h2 class="mb-4">{{object.category}}</h2>
+        </div>
+        <div class="owl-carousel testimonial-carousel">
+            {% for product in object.products %}
+            <div class="testimonial-item px-3">
+                <div class="d-flex align-items-center">
+                    <img src="{% static 'media/' %}{{product.image}}" style="width: 120px; height: 120px;" alt="Image">
+                    <div class="pl-3">
+                        <h5>{{product.name}}</h5>
+                        <i>$ {{product.price}}</i>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock content %}

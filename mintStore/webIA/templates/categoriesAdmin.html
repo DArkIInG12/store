@@ -1,0 +1,82 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+{% block content %}
+    
+<section id="productsList">
+    <div class="text-center pb-2 py-3">
+        <h4 class="section-title px-5"><span class="px-4">Categories</span></h4>
+    </div>
+
+    <div class="text-center pb-2">
+        <a id="btnAddCategory" type="submit" class="btn btn-primary" href="#alter-categories">Add Category</a>
+        <a id="btnModifyCategory" type="submit" class="btn btn-primary" href="#alter-categories">Modify Category</a>
+        <a id="btnDeleteCategory" type="submit" class="btn btn-primary">Delete Category</a>
+    </div>
+    
+    <div class="container-fluid pt-2" style="width: 100%; margin-bottom: 20px;">
+        
+        <table id="dtCategories" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in categories %}
+                    <tr>
+                        <td>{{object.atrId}}</td>
+                        <td>{{object.category}}</td>
+                        <td>{{object.description}}</td>
+                        <td>{{object.image}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+s
+<section id="alter-categories" class="hidden"> 
+    <div class="centerDiv" style="background-color: #b0d7ff">
+        <div class="classDiv2">
+            <h3 class="text-primary mb-4 tittles" style="padding-top: 20px;" id="formTittle"></h3>
+                <form action="{% url 'registerCategory' %}" method="POST" id="addCategoryForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group inputForm mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Category</span>
+                            <input type="text" name="category" id="category" class="form-control">
+                        </div>
+                    </div>
+    
+                    <div class="form-group inputForm mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Description</span>
+                            <input type="text" name="description" id="description" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group inputForm mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Image</span>
+                            <input type="file" name="image" id="image" class="form-control">
+                        </div>
+                        <p class="text-success" id="imageFeedback"></p>
+                    </div>
+
+                    <div>
+                        <button class="btn btn-primary border-0 py-3 btnForm" type="submit" id="btnSendCategory">Submit</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+    
+    </section>
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'js/categoryScripts.js' %}?1.2"></script>
+{% endblock scripts %}
