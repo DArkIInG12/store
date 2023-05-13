@@ -16,6 +16,9 @@ def register(request):
 def login(request):
     return render(request,'login.html')
 
+def cart(request):
+    return render(request,'cart.html')
+
 def indexAdmin(request):
     if request.session['jwt-key']['role']['role'] == "Admin":
         return render(request,'indexAdmin.html',{"user":request.session['jwt-key']['user']})

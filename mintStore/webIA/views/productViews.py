@@ -31,6 +31,9 @@ def get_products(request):
             elif "The token has been revoked" in resCategory.text:
                 message = "Unauthorized Access: Your token is invalid!"
                 return HttpResponse(message)
+            
+def get_product(request):
+    return render(request,'detail-product.html')
     
 def post_product(request):
     if("jwt-key" not in request.session):
