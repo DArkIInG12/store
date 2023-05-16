@@ -14,6 +14,15 @@ productRouter.get('/',async (req,res) => {
     res.send(productList)
 })
 
+productRouter.get('/product/:id',async (req,res) => {
+    const product = await Product.find({_id:req.params.id}).populate('category','category -_id')
+
+    if(!product){
+        res.status(500).json({ success: false })
+    }
+    res.send(product)
+})
+
 /*---------------------------------------- CREATE ----------------------------------------*/ 
 productRouter.post('/register',async (req,res) => {
     let newProduct = new Product({

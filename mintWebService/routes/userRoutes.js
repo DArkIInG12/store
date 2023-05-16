@@ -45,7 +45,8 @@ userRouter.post('/register',async (req,res) => {
         role: req.body.role,
         status: req.body.status,
         passwordHash: bcrypt.hashSync(req.body.password, 10),
-        isAdmin: req.body.isAdmin
+        isAdmin: req.body.isAdmin,
+        cart: []
     })
 
     newUser = await newUser.save()
@@ -94,6 +95,20 @@ userRouter.put('/:id', async (req,res) => {
     if(!user) return res.status(400).json({message: 'The user cannot be updated!'})
 
     res.status(200).json({message: 'The user has been updated!'})
+})
+
+userRouter.put('/addProduct/:idUser/:idProduct', async (req,res) => {
+    const user = await User.findByIdAndUpdate(
+        req.params.idUser,
+        {
+            $push:{
+                cart: req.params.idProduct
+            }
+        },{ new: true }
+    )
+    if(!user) return res.status(400).json({message: 'The product has not been added to cart!'})
+
+    res.status(200).json({message: 'The product has been added to your cart!'})
 })
 
 /*---------------------------------------- OTHER ----------------------------------------*/

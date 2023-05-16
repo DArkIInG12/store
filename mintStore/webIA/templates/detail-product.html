@@ -2,6 +2,17 @@
 {% load static %}
 {% block content %}
 
-<h1>Detail off</h1>
+<form action="{% url 'addToCartUnauth' %}" method="POST">
+    
+    {% csrf_token %}
+    {% for object in product %}
+        <img src="{% static 'media/' %}{{object.image}}" style="width: 150px; height: 150px;" alt="product">
+        <h1>{{object.name}}</h1>
+        <input type="hidden" value={{object.atrId}} id="idProduct">
+    {% endfor %}
+
+<button class="btn btn-primary border-0 py-2 btnForm" id="btnSendProduct">Add to Cart</button>
+
+</form>
 
 {% endblock %}

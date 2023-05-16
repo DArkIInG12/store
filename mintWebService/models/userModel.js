@@ -1,6 +1,4 @@
 const mongoose = require('mongoose')
-const Role = require('./roleModel.js')
-const Status = require('./statusModel.js')
 
 const userSchema = new mongoose.Schema({
     name:{
@@ -40,7 +38,12 @@ const userSchema = new mongoose.Schema({
     isAdmin:{
         type: Boolean,
         required: false
-    }
+    },
+    cart:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Products',
+        required: true
+    }]
 },{ collection: 'Users',versionKey: false })
 
 const User = mongoose.model('Users',userSchema)

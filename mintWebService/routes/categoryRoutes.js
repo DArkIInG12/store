@@ -16,7 +16,7 @@ categoryRouter.get('/',async (req,res) => {
 })
 
 categoryRouter.get('/products',async (req,res) => {
-    const categoryList = await Category.find().populate('products','-_id')
+    const categoryList = await Category.find().populate('products')
 
     if(!categoryList){
         res.status(500).json({ success: false })

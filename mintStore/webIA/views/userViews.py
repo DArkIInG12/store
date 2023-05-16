@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render
 from webIA.views.views import logoutApp
 import requests
@@ -52,6 +52,20 @@ def post_user(request):
     response = requests.post("http://localhost:3000/api/v1/users/register",json=payload)
     return HttpResponse(response)
     #REVISAR POSIBLE ERROR PARA MOSTRAR CON JS
+
+def post_cart_auth(request):
+    idUser = request.POST["idUser"]
+    idProduct = request.POST["idProduct"]
+    response = requests.post("http://localhost:3000/api/v1/users/addProduct/{}/{}".format(idUser,idProduct))
+    return HttpResponse(response)
+
+def post_cart_unauth(request):
+    if 'cart' in request.session:
+        idProduct = request.POST["idProduct"]
+        aux = request.session['cart']
+        aux.append(idProduct)
+        request.session['cart'] = aux
+    return JsonResponse({"response":"Product Added to cart!"})
     
 def update_user(request):
     if("jwt-key" not in request.session):

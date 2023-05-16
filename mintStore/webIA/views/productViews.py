@@ -32,8 +32,12 @@ def get_products(request):
                 message = "Unauthorized Access: Your token is invalid!"
                 return HttpResponse(message)
             
-def get_product(request):
-    return render(request,'detail-product.html')
+def get_product(request,id):
+    response = requests.get("http://localhost:3000/api/v1/products/product/{}".format(id))
+    if response.status_code == 200:
+        product = response.text.replace("_id","atrId")
+        product_json = json.loads(product)
+        return render(request,'detail-product.html',{"product":product_json})
     
 def post_product(request):
     if("jwt-key" not in request.session):
