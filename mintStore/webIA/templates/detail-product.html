@@ -1,9 +1,12 @@
-{% extends 'base.html' %}
+{% extends template %}
 {% load static %}
 {% block content %}
 
-<form action="{% url 'addToCartUnauth' %}" method="POST">
-    
+{% if template == "baseCustomer.html" %}
+    <form action="{% url 'addToCart' %}" method="POST">
+{% else %}
+    <form action="{% url 'addToCartUnauth' %}" method="POST">
+{% endif %}
     {% csrf_token %}
     {% for object in product %}
         <img src="{% static 'media/' %}{{object.image}}" style="width: 150px; height: 150px;" alt="product">
@@ -11,7 +14,11 @@
         <input type="hidden" value={{object.atrId}} id="idProduct">
     {% endfor %}
 
-<button class="btn btn-primary border-0 py-2 btnForm" id="btnSendProduct">Add to Cart</button>
+{% if template == "baseCustomer.html" %}
+    <button class="btn btn-primary border-0 py-2 btnForm" id="SendProductAuth">Add to Cart</button>
+{% else %}
+    <button class="btn btn-primary border-0 py-2 btnForm" id="SendProduct">Add to Cart</button>
+{% endif %}
 
 </form>
 

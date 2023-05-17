@@ -34,6 +34,15 @@ userRouter.get('/workers/:id',async (req,res) => {
     }
     res.send(userList)
 })
+
+userRouter.get('/products/:id',async (req,res) => {
+    const userList = await User.find({_id:req.params.id}).select('cart -_id')
+
+    if(!userList){
+        res.status(500).json({ success: false })
+    }
+    res.send(userList)
+})
 /*---------------------------------------- CREATE ----------------------------------------*/ 
 userRouter.post('/register',async (req,res) => {
     let newUser = new User({
@@ -128,7 +137,7 @@ userRouter.post('/login',async (req,res) => {
             isAdmin: user.isAdmin
         },secret, {expiresIn: '5m'})
 
-        res.status(200).send({user: user.email,role:user.role,status:user.status, token})
+        res.status(200).send({id:user._id,user: user.email,role:user.role,status:user.status, token})
     }else{
         res.status(400).json({message:'Password is wrong!'})
     }

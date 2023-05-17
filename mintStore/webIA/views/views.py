@@ -29,9 +29,22 @@ def login(request):
 def cart(request):
     template = "base.html"
     if("jwt-key" in request.session):
+        res = []
+        idUser = request.session['jwt-key']['id']
         if request.session['jwt-key']['role']['role'] == "Customer":
             template = "baseCustomer.html"
-            return render(request,'cart.html',{"template":template,"user":request.session['jwt-key']['user']})
+            response = requests.get("http://localhost:3000/api/v1/users/products/{}".format(idUser))
+            if response.status_code == 200:
+                products = response.text.replace("_id","atrId")
+                products_json = json.loads(products)
+                for i in products_json[0]["cart"]:
+                    response = requests.get("http://localhost:3000/api/v1/products/product/{}".format(i))
+                    product = response.text.replace("_id","atrId")
+                    product_json = json.loads(product)
+                    res.append(product_json)
+                return render(request,'cart.html',{"template":template,"user":request.session['jwt-key']['user'],"products":res})
+            else:
+                return HttpResponse(response.status_code)
         else:
             return HttpResponse("Unauthorized Access")
     else:   

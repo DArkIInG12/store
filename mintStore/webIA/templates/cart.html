@@ -2,25 +2,39 @@
 {% load static %}
 {% block content %}
 
-<h1>CART</h1>
+{% if products %}
+    <div class="text-center py-3">
+        <h1 class="mb-4">Cart</h1>
+    </div>
+{% else %}
+    <div class="text-center py-3">
+        <h1 class="mb-4">Your Cart is Empty :C</h1>
+    </div>
+{% endif %}
 
-{% for product in products %}
-    {% for object in product %}
-    <div class="classDiv3">
-        <button type="submit" id="delProduct" style="position: absolute; margin-left: 428px;" class="btn-danger">X</button>
-        <input id="a" type="hidden" value="{{object.atrId}}">
-        <div class="testimonial-item px-5 py-2">
-            <div class="d-flex align-items-center">
-                <img src="{% static 'media/' %}{{object.image}}" style="width: 120px; height: 120px;" alt="Image">
-                <div class="pl-4">
-                    <h5>{{object.name}}</h5>
-                    <i>$ {{object.price}}</i>
+<form action="{% url 'delFromCartUnauth' %}" method="POST">
+    {% csrf_token %}
+    {% for product in products %}
+        {% for object in product %}
+        <div class="classDiv3" id="d{{object.atrId}}">
+            <button type="submit" id="b{{object.atrId}}" style="position: absolute; margin-left: 428px;" class="btn-danger">X</button>
+            <div class="testimonial-item px-5 py-2">
+                <div class="d-flex align-items-center">
+                    <img src="{% static 'media/' %}{{object.image}}" style="width: 120px; height: 120px;" alt="Image">
+                    <div class="pl-4">
+                        <h5>{{object.name}}</h5>
+                        <i id="pr{{object.atrId}}">$ {{object.price}}</i>
+                    </div>
                 </div>
             </div>
         </div>
-        
-    </div>
+        {% endfor %}
     {% endfor %}
-{% endfor %}
+    {% if products %}
+    <div class="classDiv3" style="text-align: center;">
+        <h4 class="py-2" id="total">Total: $ 0.00</h4>
+    </div>
+{% endif %}
+</form>
 
 {% endblock %}

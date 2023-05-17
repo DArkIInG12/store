@@ -54,10 +54,13 @@ def post_user(request):
     #REVISAR POSIBLE ERROR PARA MOSTRAR CON JS
 
 def post_cart_auth(request):
-    idUser = request.POST["idUser"]
+    idUser = request.session['jwt-key']['id']
     idProduct = request.POST["idProduct"]
-    response = requests.post("http://localhost:3000/api/v1/users/addProduct/{}/{}".format(idUser,idProduct))
+    response = requests.put("http://localhost:3000/api/v1/users/addProduct/{}/{}".format(idUser,idProduct))
     return HttpResponse(response)
+
+def delete_cart_auth(request):
+    pass
 
 def post_cart_unauth(request):
     if 'cart' in request.session:
@@ -65,8 +68,17 @@ def post_cart_unauth(request):
         aux = request.session['cart']
         aux.append(idProduct)
         request.session['cart'] = aux
-    return JsonResponse({"response":"Product Added to cart!"})
+        return JsonResponse({"response":"Product Added to cart!"})
+    else:
+        return JsonResponse({"response":"Error"})
     
+def delete_cart_unauth(request):
+    idProduct = request.POST["idProduct"]
+    aux = request.session['cart']
+    aux.remove(idProduct)
+    request.session['cart'] = aux
+    return JsonResponse({"response":"Product Removed from cart!"})
+
 def update_user(request):
     if("jwt-key" not in request.session):
         return HttpResponse("Unauthorized Access")

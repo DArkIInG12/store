@@ -33,11 +33,16 @@ def get_products(request):
                 return HttpResponse(message)
             
 def get_product(request,id):
+    template = "base.html"
     response = requests.get("http://localhost:3000/api/v1/products/product/{}".format(id))
     if response.status_code == 200:
         product = response.text.replace("_id","atrId")
         product_json = json.loads(product)
-        return render(request,'detail-product.html',{"product":product_json})
+        if 'jwt-key' in request.session:
+            template = "baseCustomer.html"
+            return render(request,'detail-product.html',{"product":product_json,"template":template,"user":request.session['jwt-key']['user']})
+        else:
+            return render(request,'detail-product.html',{"product":product_json,"template":template})
     
 def post_product(request):
     if("jwt-key" not in request.session):
