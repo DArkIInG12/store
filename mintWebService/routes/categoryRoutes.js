@@ -38,7 +38,7 @@ categoryRouter.post('/register',async (req,res) => {
 
     if(!newCategory) return res.status(400).json({message:'The category has not been created!'})
 
-    res.status(200).json({message: 'The category has been registered!'})
+    res.status(200).json({message: 'The category has been registered!',category: newCategory._id,image: newCategory.image})
 })
 
 /*---------------------------------------- DELETE ----------------------------------------*/
@@ -67,7 +67,7 @@ categoryRouter.put('/:id', async (req,res) => {
     )
     if(!category) return res.status(400).json({message: 'The category cannot be updated!'})
 
-    res.status(200).json({message: 'The category has been updated!'})
+    res.status(200).json({message: 'The category has been updated!',image: category.image})
 })
 
 categoryRouter.put('/addProduct/:id/:idProduct', async (req,res) => {

@@ -1,6 +1,7 @@
 $(document).ready(function(){
     downButtons();
-    var data = []
+    var data = [];
+    var row = "";
     var table = $('#dtPayments').DataTable({
         columnDefs: [
             {
@@ -15,11 +16,13 @@ $(document).ready(function(){
             $(this).removeClass('selected');
             downButtons()
             $("#alter-payments").addClass('hidden')
-            data = []
+            row = "";
+            data = [];
         } else {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
-            upButtons()
+            upButtons();
+            row = this;
             data = table.row( this ).data();
         }
     });
@@ -61,7 +64,9 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success: function (response) {
-                revokeUser(response,"u");
+                table.row(row).data([data[0],$("#method").val()]);
+                downButtons();
+                revokeUser(response,"addPaymentForm");
             },
             error: function (error) {
                 console.log(error);
@@ -81,6 +86,7 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success: function (response) {
+                table.row.add([response.method,$("#method").val()]).draw(false);
                 revokeUser(response,"addPaymentForm");
             },
             error: function (error) {
@@ -180,9 +186,7 @@ $(document).ready(function(){
             showAlert(response.message, "success", 1500);
             if(formToClear != ""){
                 $('#'+formToClear).trigger("reset");
-                setTimeout(() => {
-                    location.reload()
-                }, 1500);
+                $('#alter-payments').addClass('hidden');
             }
         }
     }

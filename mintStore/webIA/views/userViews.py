@@ -51,7 +51,6 @@ def post_user(request):
     }
     response = requests.post("http://localhost:3000/api/v1/users/register",json=payload)
     return HttpResponse(response)
-    #REVISAR POSIBLE ERROR PARA MOSTRAR CON JS
 
 def post_cart_auth(request):
     idUser = request.session['jwt-key']['id']
@@ -60,7 +59,10 @@ def post_cart_auth(request):
     return HttpResponse(response)
 
 def delete_cart_auth(request):
-    pass
+    idUser = request.session['jwt-key']['id']
+    idProduct = request.POST["idProduct"]
+    response = requests.put("http://localhost:3000/api/v1/users/removeProduct/{}/{}".format(idUser,idProduct))
+    return HttpResponse(response)
 
 def post_cart_unauth(request):
     if 'cart' in request.session:

@@ -43,6 +43,11 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Products',
         required: true
+    }],
+    coupons:[{
+       type: mongoose.Schema.Types.ObjectId,
+       ref: 'Coupons',
+       required: true
     }]
 },{ collection: 'Users',versionKey: false })
 

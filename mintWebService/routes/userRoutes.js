@@ -1,6 +1,8 @@
 const express = require('express')
 const userRouter = express.Router()
 const User = require('../models/userModel.js')
+const Role = require('../models/roleModel.js')
+const Status = require('../models/statusModel.js')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -55,14 +57,18 @@ userRouter.post('/register',async (req,res) => {
         status: req.body.status,
         passwordHash: bcrypt.hashSync(req.body.password, 10),
         isAdmin: req.body.isAdmin,
-        cart: []
+        cart: [],
+        coupons: []
     })
 
     newUser = await newUser.save()
 
     if(!newUser) return res.status(400).json({message:'The user has not been created!'})
 
-    res.status(200).json({message: 'The user has been registered!'})
+    const role = await Role.findById(newUser.role)
+    const status = await Status.findById(newUser.status)
+
+    res.status(200).json({message: 'The user has been registered!',user: newUser._id,nRole: role.role,nStatus: status.status})
 })
 
 /*---------------------------------------- DELETE ----------------------------------------*/
@@ -103,7 +109,10 @@ userRouter.put('/:id', async (req,res) => {
     )
     if(!user) return res.status(400).json({message: 'The user cannot be updated!'})
 
-    res.status(200).json({message: 'The user has been updated!'})
+    const role = await Role.findById(user.role)
+    const status = await Status.findById(user.status)
+
+    res.status(200).json({message: 'The user has been updated!',nRole: role.role,nStatus: status.status})
 })
 
 userRouter.put('/addProduct/:idUser/:idProduct', async (req,res) => {
@@ -120,6 +129,19 @@ userRouter.put('/addProduct/:idUser/:idProduct', async (req,res) => {
     res.status(200).json({message: 'The product has been added to your cart!'})
 })
 
+userRouter.put('/removeProduct/:id/:idProduct', async (req,res) => {
+    const user = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+            $pull:{
+                cart: req.params.idProduct
+            }
+        },{ safe: true }
+    )
+    if(!user) return res.status(400).json({message: 'The cart cannot be updated!'})
+
+    res.status(200).json({message: 'Product has been removed from your cart! '})
+})
 /*---------------------------------------- OTHER ----------------------------------------*/
 
 userRouter.post('/login',async (req,res) => {

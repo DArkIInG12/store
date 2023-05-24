@@ -1,6 +1,7 @@
 $(document).ready(function(){
     downButtons();
-    var data = []
+    var data = [];
+    var row = "";
     var table = $('#dtProducts').DataTable({
         columnDefs: [
             {
@@ -14,12 +15,14 @@ $(document).ready(function(){
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
             downButtons()
-            $("#alter-products").addClass('hidden')
-            data = []
+            $("#alter-products").addClass('hidden');
+            row = "";
+            data = [];
         } else {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
             upButtons()
+            row = this;
             data = table.row( this ).data();
         }
     });
@@ -88,6 +91,8 @@ $(document).ready(function(){
                         category: data[9],
                         csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
                     };
+                    table.row(row).data([data[0],$("#name").val(),$("#brand").val(),$("#price").val(),$("#color").val(),$("#size").val(),$("#inStock").val(),response.nCategory,response.image]);
+                    downButtons();
                     $.ajax({
                         url: "../../deleteProductCategory/",
                         type: 'post',
@@ -152,6 +157,7 @@ $(document).ready(function(){
                     category: $("#category").val(),
                     csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
                 };
+                table.row.add([response.product,$("#name").val(),$("#brand").val(),$("#price").val(),$("#color").val(),$("#size").val(),$("#inStock").val(),response.nCategory,response.image]).draw(false);
                 $.ajax({
                     url: "../../registerProductCategory/",
                     type: 'post',
@@ -293,9 +299,7 @@ $(document).ready(function(){
             showAlert(response.message, "success", 1500);
             if(formToClear != ""){
                 $('#'+formToClear).trigger("reset");
-                setTimeout(() => {
-                    location.reload()
-                }, 1500);
+                $('#alter-products').addClass('hidden');
             }
         }
     }

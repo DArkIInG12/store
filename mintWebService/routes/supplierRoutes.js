@@ -28,7 +28,7 @@ supplierRouter.post('/register',async (req,res) => {
 
     if(!newSupplier) return res.status(400).json({message:'The supplier has not been registered!'})
 
-    res.status(200).json({message: 'The supplier has been registered!'})
+    res.status(200).json({message: 'The supplier has been registered!', supplier:newSupplier._id})
 })
 
 /*---------------------------------------- DELETE ----------------------------------------*/

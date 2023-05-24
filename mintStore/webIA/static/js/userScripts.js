@@ -1,6 +1,7 @@
 $(document).ready(function(){
     downButtons();
     var data = [];
+    var row = "";
     var table = $('#dtUsers').DataTable({
         columnDefs: [
             {
@@ -14,12 +15,14 @@ $(document).ready(function(){
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
             downButtons()
-            $("#alter-users").addClass('hidden')
-            data = []
+            $("#alter-users").addClass('hidden');
+            row = "";
+            data = [];
         } else {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
-            upButtons()
+            upButtons();
+            row = this;
             data = table.row( this ).data();
         }
     });
@@ -76,7 +79,9 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success: function (response) {
-                revokeUser(response,"u");
+                table.row(row).data([data[0],$("#name").val(),$("#lastName").val(),$("#email").val(),$("#phone").val(),$("#birthDate").val(),response.nRole,response.nStatus]);
+                downButtons();
+                revokeUser(response,"addUserForm");
             },
             error: function (error) {
                 console.log(error);
@@ -96,6 +101,7 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success: function (response) {
+                table.row.add([response.user,$("#name").val(),$("#lastName").val(),$("#email").val(),$("#phone").val(),$("#birthDate").val(),response.nRole,response.nStatus]).draw(false);
                 revokeUser(response,"addUserForm");
             },
             error: function (error) {
@@ -195,9 +201,7 @@ $(document).ready(function(){
             showAlert(response.message, "success", 1500);
             if(formToClear != ""){
                 $('#'+formToClear).trigger("reset");
-                setTimeout(() => {
-                    location.reload()
-                }, 1500);
+                $('#alter-users').addClass('hidden');
             }
         }
     }

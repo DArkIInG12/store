@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from webIA.views.views import index,register,login,cart,indexAdmin,dashboardAdmin,indexCustomer,loginApp,logoutApp
 from webIA.views.productViews import get_products,get_product,post_product,post_product_category,delete_product,delete_product_category,update_product
-from webIA.views.userViews import get_users,post_user,delete_user,update_user,post_cart_auth,post_cart_unauth,delete_cart_unauth
+from webIA.views.userViews import get_users,post_user,delete_user,update_user,post_cart_auth,delete_cart_auth,post_cart_unauth,delete_cart_unauth
 from webIA.views.categoryViews import get_categories,post_category,delete_category,update_category
 from webIA.views.supplierViews import get_suppliers,post_supplier,delete_supplier,update_supplier
 from webIA.views.couponViews import get_coupons,post_coupon,delete_coupon,update_coupon
@@ -15,6 +15,7 @@ urlpatterns = [
     path('home/',index,name='index'),
     path('cart/',cart,name='cart'),
     path('addToCart/',post_cart_auth,name='addToCart'),
+    path('delFromCart/',delete_cart_auth,name='delFromCart'),
     path('addToCartUnauth/',post_cart_unauth,name='addToCartUnauth'),
     path('delFromCartUnauth/',delete_cart_unauth,name='delFromCartUnauth'),
     path('detail-product/<str:id>',get_product,name='detail-product'),

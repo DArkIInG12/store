@@ -26,7 +26,7 @@ couponRouter.post('/register',async (req,res) => {
 
     if(!newCoupon) return res.status(400).json({message:'The coupon has not been created!'})
 
-    res.status(200).json({message: 'The coupon has been registered!'})
+    res.status(200).json({message: 'The coupon has been registered!',coupon: newCoupon._id})
 })
 
 /*---------------------------------------- DELETE ----------------------------------------*/

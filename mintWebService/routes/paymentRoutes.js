@@ -25,7 +25,7 @@ paymentRouter.post('/register',async (req,res) => {
 
     if(!newPayment) return res.status(400).json({message:'The payment has not been created!'})
 
-    res.status(200).json({message: 'The payment has been registered!'})
+    res.status(200).json({message: 'The payment has been registered!', method:newPayment._id})
 })
 
 /*---------------------------------------- DELETE ----------------------------------------*/

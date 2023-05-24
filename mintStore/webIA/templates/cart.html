@@ -4,15 +4,19 @@
 
 {% if products %}
     <div class="text-center py-3">
-        <h1 class="mb-4">Cart</h1>
+        <h1 class="mb-4">Backpack</h1>
     </div>
 {% else %}
     <div class="text-center py-3">
-        <h1 class="mb-4">Your Cart is Empty :C</h1>
+        <h1 class="mb-4">Your Backpack is Empty :C</h1>
     </div>
 {% endif %}
 
-<form action="{% url 'delFromCartUnauth' %}" method="POST">
+{% if template == "baseCustomer.html" %}
+    <form action="{% url 'delFromCart' %}" method="POST">
+{% else %}
+    <form action="{% url 'delFromCartUnauth' %}" method="POST">
+{% endif %}
     {% csrf_token %}
     {% for product in products %}
         {% for object in product %}
@@ -35,6 +39,13 @@
         <h4 class="py-2" id="total">Total: $ 0.00</h4>
     </div>
 {% endif %}
+
+{% if template == "baseCustomer.html" %}
+    <input type="hidden" value="1" id="boolUser">
+{% else %}
+    <input type="hidden" value="0" id="boolUser">
+{% endif %}
+
 </form>
 
 {% endblock %}

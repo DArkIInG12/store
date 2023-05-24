@@ -1,6 +1,7 @@
 $(document).ready(function(){
     downButtons();
-    var data = []
+    var data = [];
+    var row = "";
     var table = $('#dtCategories').DataTable({
         columnDefs: [
             {
@@ -13,36 +14,38 @@ $(document).ready(function(){
     $('#dtCategories tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
-            downButtons()
+            downButtons();
             $("#alter-categories").addClass('hidden')
-            data = []
+            row = "";
+            data = [];
         } else {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
-            upButtons()
+            upButtons();
+            row = this;
             data = table.row( this ).data();
         }
     });
 
     $('#btnModifyCategory').on('click', function () {
-        $("#alter-categories").removeClass('hidden')
+        $("#alter-categories").removeClass('hidden');
         $('#addCategoryForm').trigger("reset");
-        $("#formTittle").text("Modify Category")
-        $("#btnSendCategory").text("Update Category")
-        $("#imageFeedback").text("Current Image: " + data[3])
+        $("#formTittle").text("Modify Category");
+        $("#btnSendCategory").text("Update Category");
+        $("#imageFeedback").text("Current Image: " + data[3]);
         fields = ["category","description","image"];
         i = 1;
         fields.forEach(element => {
-            $('#'+element).val(data[i])
+            $('#'+element).val(data[i]);
             i++;
         });
     });
 
     $('#btnAddCategory').on('click', function () {
-        $("#alter-categories").removeClass('hidden')
-        $("#formTittle").text("Add Category")
+        $("#alter-categories").removeClass('hidden');
+        $("#formTittle").text("Add Category");
         $('#addCategoryForm').trigger("reset");
-        $("#imageFeedback").text("")
+        $("#imageFeedback").text("");
     });
 
     //-----------------------------------AJAX PARA ENVIO DE DATOS-----------------------------//
@@ -52,7 +55,7 @@ $(document).ready(function(){
         var Fdata = new FormData();
         Fdata.append("category",$("#category").val())
         Fdata.append("description",$("#description").val())
-        Fdata.append("email",$("#email").val())
+        //Fdata.append("email",$("#email").val())
         Fdata.append("image",$("input[id^='image']")[0].files[0])
         Fdata.append("csrfmiddlewaretoken",$("input[name=csrfmiddlewaretoken]").val())
         if($('#btnSendCategory').text() == "Update Category"){
@@ -67,7 +70,9 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success: function (response) {
-                revokeUser(response,"u");
+                table.row(row).data([data[0],$("#category").val(),$("#description").val(),response.image]);
+                downButtons();
+                revokeUser(response,"addCategoryForm");
             },
             error: function (error) {
                 console.log(error);
@@ -87,6 +92,7 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success: function (response) {
+                table.row.add([response.category,$("#category").val(),$("#description").val(),response.image]).draw(false);
                 revokeUser(response,"addCategoryForm");
             },
             error: function (error) {
@@ -187,9 +193,7 @@ $(document).ready(function(){
             showAlert(response.message, "success", 1500);
             if(formToClear != ""){
                 $('#'+formToClear).trigger("reset");
-                setTimeout(() => {
-                    location.reload()
-                }, 1500);
+                $('#alter-categories').addClass('hidden');
             }
         }
     }

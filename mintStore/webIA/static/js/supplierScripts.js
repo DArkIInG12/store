@@ -1,6 +1,7 @@
 $(document).ready(function(){
     downButtons();
-    var data = []
+    var data = [];
+    var row = "";
     var table = $('#dtSuppliers').DataTable({
         columnDefs: [
             {
@@ -13,13 +14,15 @@ $(document).ready(function(){
     $('#dtSuppliers tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
-            downButtons()
+            downButtons();
             $("#alter-suppliers").addClass('hidden')
-            data = []
+            row = "";
+            data = [];
         } else {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
-            upButtons()
+            upButtons();
+            row = this;
             data = table.row( this ).data();
         }
     });
@@ -63,7 +66,9 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success: function (response) {
-                revokeUser(response,"u");
+                table.row(row).data([data[0],$("#name").val(),$("#phone").val(),$("#email").val(),$("#address").val()]);
+                downButtons();
+                revokeUser(response,"addSupplierForm");
             },
             error: function (error) {
                 console.log(error);
@@ -83,6 +88,7 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success: function (response) {
+                table.row.add([response.supplier,$("#name").val(),$("#phone").val(),$("#email").val(),$("#address").val()]).draw(false);
                 revokeUser(response,"addSupplierForm");
             },
             error: function (error) {
@@ -182,9 +188,7 @@ $(document).ready(function(){
             showAlert(response.message, "success", 1500);
             if(formToClear != ""){
                 $('#'+formToClear).trigger("reset");
-                setTimeout(() => {
-                    location.reload()
-                }, 1500);
+                $('#alter-suppliers').addClass('hidden');
             }
         }
     }

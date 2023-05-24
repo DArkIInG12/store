@@ -59,30 +59,47 @@ $(document).ready(function () {
                 idProduct: product,
                 csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
             };
-            $.ajax({
-                url: "../../delFromCartUnauth/",
-                type: 'post',
-                data: formData,
-                dataType: 'json',
-                success: function(response){
-                    showAlert(response.response, "success", 1500)
-                    $('#d'+product).remove();
-                    totalDue();
-                },
-                error: function (error) {
-                    console.log(error);
-                    $.each( error.responseJSON, function( key, value ) {
-                        //showAlert(value, "danger", 5000);
-                        showAlert(value, "danger", 1500)
-                    });
-                }
-            });
+            if($("#boolUser").val() == "1"){
+                $.ajax({
+                    url: "../../delFromCart/",
+                    type: 'post',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response){
+                        showAlert(response.message, "success", 1500)
+                        $('#d'+product).remove();
+                        totalDue();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $.each( error.responseJSON, function( key, value ) {
+                            //showAlert(value, "danger", 5000);
+                            showAlert(value, "danger", 1500)
+                        });
+                    }
+                });
+            }
+            else{
+                $.ajax({
+                    url: "../../delFromCartUnauth/",
+                    type: 'post',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response){
+                        showAlert(response.response, "success", 1500)
+                        $('#d'+product).remove();
+                        totalDue();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $.each( error.responseJSON, function( key, value ) {
+                            //showAlert(value, "danger", 5000);
+                            showAlert(value, "danger", 1500)
+                        });
+                    }
+                });
+            }
         });
-    });
-
-    $('#delProduct').on('click', function (event) {
-        event.preventDefault();
-        alert($('#this').val())
     });
 
     function showAlert(message, type, closeDelay) {

@@ -1,6 +1,7 @@
 const express = require('express')
 const productRouter = express.Router()
 const Product = require('../models/productModel.js')
+const Category = require('../models/categoryModel.js')
 
 /*---------------------------------------- CRUD ----------------------------------------*/ 
 
@@ -40,7 +41,9 @@ productRouter.post('/register',async (req,res) => {
 
     if(!newProduct) return res.status(400).json({message:'The product has not been created!'})
 
-    res.status(200).json({message: 'The product has been registered!',product: newProduct._id})
+    const category = await Category.findById(newProduct.category)
+
+    res.status(200).json({message: 'The product has been registered!',product: newProduct._id,image: newProduct.image,nCategory:category.category})
 })
 
 /*---------------------------------------- DELETE ----------------------------------------*/
@@ -73,7 +76,9 @@ productRouter.put('/:id', async (req,res) => {
     )
     if(!product) return res.status(400).json({message: 'The product cannot be updated!'})
 
-    res.status(200).json({message: 'The product has been updated!'})
+    const category = await Category.findById(product.category)
+
+    res.status(200).json({message: 'The product has been updated!',image: product.image,nCategory: category.category})
 })
 
 module.exports = productRouter

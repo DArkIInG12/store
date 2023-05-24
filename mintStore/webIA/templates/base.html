@@ -45,12 +45,15 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav font-weight-bold mx-auto py-0">
                         <a href="{% url 'index' %}" class="nav-item nav-link" id="home">Home</a>
-                        <a href="about.html" class="nav-item nav-link" id="about">About</a>
-                        <a href="contact.html" class="nav-item nav-link" id="contact">Contact</a>
+                        <a href="#" class="nav-item nav-link" id="about">About</a>
+                        <a href="#" class="nav-item nav-link" id="contact">Contact</a>
                     </div>
                     <a href="{% url 'register' %}" class="btn btn-primary px-4" style="margin-right: 5px;" id="register">Register</a>
                     <a href="{% url 'login' %}" class="btn btn-primary px-4" id="login">Log In</a>
-                    <a href="{% url 'cart' %}" style="margin-left: 25px;" id="cart"><img style="width: 35px; height: 35px;" src="{% static 'icons/carrito-de-compras.png' %}"></a>
+
+                    <a href="{% url 'cart' %}" class="navbar-brand font-weight-bold text-secondary" style="font-size: 35px; margin-left: 25px;">
+                        <i class="flaticon-047-backpack"></i>
+                    </a>
                 </div>
             </nav>
         </div>
@@ -132,9 +135,9 @@
         </div>
         <div class="container-fluid pt-5" style="border-top: 1px solid rgba(23, 162, 184, .2);;">
             <p class="m-0 text-center text-white">
-                &copy; <a class="text-primary font-weight-bold" href="#">Your Site Name</a>. All Rights Reserved. Designed
+                &copy; <a class="text-primary font-weight-bold" href="#">Mint Store</a>. All Rights Reserved. Designed
                 by
-                <a class="text-primary font-weight-bold" href="https://htmlcodex.com">HTML Codex</a>
+                <a class="text-primary font-weight-bold" href="https://htmlcodex.com">Linuxes</a>
             </p>
         </div>
     </div>
