@@ -9,16 +9,45 @@
 {% endif %}
     {% csrf_token %}
     {% for object in product %}
-        <img src="{% static 'media/' %}{{object.image}}" style="width: 150px; height: 150px;" alt="product">
-        <h1>{{object.name}}</h1>
+
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5">
+                    <img class="img-fluid rounded mb-5 mb-lg-0" src="{% static 'media/' %}{{object.image}}" alt="">
+                </div>
+                <div class="col-lg-7">
+                    <p class="section-title pr-5"><span class="pr-2">Product Details</span></p>
+                    <h1 class="mb-4">{{object.name}}</h1>
+                    <p>Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum ut sed eos,
+                        ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum est
+                        dolor</p>
+                    <div class="row pt-2 pb-4">
+                        <div class="col-6 col-md-4 text-center">
+                            <img class="img-fluid rounded" src="{% static 'media/' %}{{object.brand.lower}}.png" alt="">
+                        </div>
+                        <div class="col-6 col-md-8">
+                            <ul class="list-inline m-0">
+                                <li class="py-2 border-top border-bottom"><i class="fa fa-check text-primary mr-3"></i>In Stock: <b>{{object.inStock}}</b></li>
+                                <li class="py-2 border-bottom"><i class="fa fa-check text-primary mr-3"></i>Color: <b>{{object.color}}</b></li>
+                                <li class="py-2 border-bottom"><i class="fa fa-check text-primary mr-3"></i>Size: <b>{{object.size}}</b></li>
+                                <li class="py-2 border-bottom"><i class="fa fa-check text-primary mr-3"></i>Price: $<b>{{object.price}}</b></li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% if template == "baseCustomer.html" %}
+                        <button class="btn btn-primary border-0 py-2 btnForm" id="SendProductAuth">Add to Cart</button>
+                    {% else %}
+                        <button class="btn btn-primary border-0 py-2 btnForm" id="SendProduct">Add to Cart</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
         <input type="hidden" value={{object.atrId}} id="idProduct">
     {% endfor %}
 
-{% if template == "baseCustomer.html" %}
-    <button class="btn btn-primary border-0 py-2 btnForm" id="SendProductAuth">Add to Cart</button>
-{% else %}
-    <button class="btn btn-primary border-0 py-2 btnForm" id="SendProduct">Add to Cart</button>
-{% endif %}
+
 
 </form>
 

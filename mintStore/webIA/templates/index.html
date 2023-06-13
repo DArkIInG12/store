@@ -1,8 +1,24 @@
 {% extends template %}
 {% load static %}
 {% block content %}
+{% csrf_token %}
+<div class="container-fluid bg-primary px-0 px-md-5 mb-5">
+    <div class="row align-items-center px-3 py-md-5">
+        <div class="col-lg-6 text-center text-lg-left">
+            <h4 class="text-white mb-4 mt-5 mt-lg-0">Mint Store For Your Needs</h4>
+            <h1 class="display-3 font-weight-bold text-white">New Approach to Online Sales</h1>
+            <p class="text-white mb-4">Sea ipsum kasd eirmod kasd magna, est sea et diam ipsum est amet sed sit.
+                Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita
+                lorem dolore sed stet et est justo dolore.</p>
+            <a href="" class="btn btn-secondary mt-1 py-3 px-5">Learn More</a>
+        </div>
+        <div class="col-lg-6 text-center text-lg-right" style="padding-bottom: 20px;">
+            <img class="img-fluid mt-5" src="{% static 'media/' %}{{'tigre.jpg'}}" alt="">
+        </div>
+    </div>
+</div>
 
-<div class="container-fluid py-5">
+<div class="container-fluid py-2">
     <div class="container p-0">
         <div class="text-center pb-2">
             <h1 class="mb-4">Categories</h1>
@@ -29,27 +45,41 @@
 </div>
 
 {% for object in categories %}
-<div class="container-fluid py-5">
+<div class="container-fluid py-3">
     <div class="container p-0">
         <div class="text-center pb-2">
             <h2 class="mb-4">{{object.category}}</h2>
         </div>
         <div class="owl-carousel testimonial-carousel">
             {% for product in object.products %}
-            <a href="/detail-product/{{product.atrId}}">
-            <div class="testimonial-item px-3">
-                <div class="d-flex align-items-center">
-                    <img src="{% static 'media/' %}{{product.image}}" style="width: 120px; height: 120px;" alt="Image">
-                    <div class="pl-3">
-                        <h5>{{product.name}}</h5>
-                        <i>$ {{product.price}}</i>
+            <div class="container-fluid pt-1">
+                <div class="container">
+                    <div class="text-center pb-3">
+                        <div class="card border-1 bg-light shadow-sm pb-1 align-items-center team">
+                            <img class="card-img-top mb-2" src="{% static 'media/' %}{{product.image}}" style="width: 120px; height: 120px; padding-top: 10px;" alt="">
+                            <div class="team-social d-flex align-items-center justify-content-center w-100 h-100 position-absolute">
+                            <a class="btn btn-outline-light text-center mr-2" style="width: 55px; height: 55px;"
+                                href="/detail-product/{{product.atrId}}"><img src="{% static 'icons/lista.png' %}" style="width: 25px; height: 25px; margin-top: 7px; margin-left: 2px;" alt=""></a>
+                            <a class="btn btn-outline-light text-center mr-2" style="width: 55px; height: 55px;"
+                                id="k{{product.atrId}}"><img id="k{{product.atrId}}" src="{% static 'icons/carrito-de-compras.png' %}" style="width: 25px; height: 25px; margin-top: 7px; margin-left: 1px;" alt=""></a>
+                            </div>
+                            <div class="card-body text-center">
+                                <h4 class="card-title">{{product.name}}</h4>
+                                <p class="card-text">$ {{product.price}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            </a>
             {% endfor %}
         </div>
     </div>
 </div>
+
+{% if template == "baseCustomer.html" %}
+    <input type="hidden" value="1" id="boolUser">
+{% else %}
+    <input type="hidden" value="0" id="boolUser">
+{% endif %}
 {% endfor %}
 {% endblock content %}

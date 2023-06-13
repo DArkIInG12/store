@@ -102,6 +102,53 @@ $(document).ready(function () {
         });
     });
 
+    const acts = document.querySelectorAll('a[id^="k"]');
+    acts.forEach((act) => {
+        act.addEventListener('click', e => {
+            var product = e.target.id.substring(1,);
+            var formData = {
+                idProduct: product,
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
+            };
+            if($("#boolUser").val() == "1"){
+                $.ajax({
+                    url: "../../addToCart/",
+                    type: 'post',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response){
+                        showAlert(response.message, "success", 1500)
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $.each( error.responseJSON, function( key, value ) {
+                            //showAlert(value, "danger", 5000);
+                            showAlert(value, "danger", 1500)
+                        });
+                    }
+                });
+            }
+            else{
+                $.ajax({
+                    url: "../../addToCartUnauth/",
+                    type: 'post',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response){
+                        showAlert(response.response, "success", 1500)
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $.each( error.responseJSON, function( key, value ) {
+                            //showAlert(value, "danger", 5000);
+                            showAlert(value, "danger", 1500)
+                        });
+                    }
+                });
+            }
+        });
+    });
+
     function showAlert(message, type, closeDelay) {
 
         var $cont = $("#alerts-container");
