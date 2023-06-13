@@ -27,15 +27,17 @@
                         <img class="card-img-top mb-2" src="{% static 'media/' %}{{object.image}}" style="width: 120px; height: 120px; padding-top: 10px;" alt="">
                         <div class="team-social d-flex align-items-center justify-content-center w-100 h-100 position-absolute">
                             <a class="btn btn-outline-light text-center mr-2" style="width: 55px; height: 55px;"
-                            href="#"><img src="{% static 'icons/menos.png' %}" style="width: 25px; height: 25px; margin-top: 7px; margin-left: 1px;" alt=""></a>
+                            href="min{{object.atrId}}"><img src="{% static 'icons/menos.png' %}" style="width: 25px; height: 25px; margin-top: 7px; margin-left: 1px;" alt=""></a>
                             <button class="btn btn-outline-light text-center mr-2" style="width: 55px; height: 55px;"
                             id="b{{object.atrId}}"><img id="b{{object.atrId}}" src="{% static 'icons/eliminar.png' %}" style="width: 25px; height: 25px; margin-left: 0px;" alt=""></button>
                             <a class="btn btn-outline-light text-center mr-2" style="width: 55px; height: 55px;"
-                            href="#"><img src="{% static 'icons/anadir.png' %}" style="width: 25px; height: 25px; margin-top: 7px; margin-left: 1px;" alt=""></a>
+                            id="plus{{object.atrId}}"><img id="plus{{object.atrId}}" src="{% static 'icons/anadir.png' %}" style="width: 25px; height: 25px; margin-top: 7px; margin-left: 1px;" alt=""></a>
                         </div>
                         <div class="card-body text-center">
                             <h4 class="card-title">{{object.name}}</h4>
-                            <i class="card-text" id="pr{{object.atrId}}">$ {{object.price}}</i>
+                            <i class="card-text" id="quan{{object.atrId}}">1 x</i>
+                            <i class="card-text" id="pr{{object.atrId}}">${{object.price}}</i>
+                            <i class="card-text" id="sum{{object.atrId}}"><b>= ${{object.price}}</b></i>
                         </div>
                     </div>
                 </div>

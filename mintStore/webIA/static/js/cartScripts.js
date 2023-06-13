@@ -185,8 +185,22 @@ $(document).ready(function () {
             window.setTimeout(function() { alert.alert("close") }, closeDelay);    
     }
 
+    const plusBtns = document.querySelectorAll('a[id^="plus"]');
+    plusBtns.forEach((pBtn) => {
+        pBtn.addEventListener('click', e => {
+            var product = e.target.id.substring(4,);
+            let q = $("#quan"+product).html();
+            q = parseInt(q)+1;
+            $("#quan"+product).html(q + " x");
+            let pr = $("#pr"+product).html();
+            let sum = q * parseFloat(pr.substring(1,));
+            $("#sum"+product).html("= $"+sum);
+            totalDue();
+        });
+    });
+
     function totalDue(){
-        const prices = document.querySelectorAll('i[id^="pr"]');
+        const prices = document.querySelectorAll('i[id^="sum"]');
         let total = 0;
         prices.forEach((price) => {
             let value = price.innerHTML;

@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-t&+ouv1kg*bp5lw9a)xt5wj*!91@=3-lg2bts8c%e-hmwq8^je
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.31','localhost']
 
 
 # Application definition
@@ -55,7 +55,7 @@ ROOT_URLCONF = 'webIA.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/home/gary/mintStore/mintStore/webIA/templates'],
+        'DIRS': ['/home/gary/store/mintStore/webIA/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
